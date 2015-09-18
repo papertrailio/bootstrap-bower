@@ -2487,6 +2487,9 @@ angular.module('ui.bootstrap.modal', [])
             $modalStack.dismiss(modal.key, 'backdrop click');
           }
         };
+        
+        // moved from template to fix issue #2280
++       element.on('click', scope.close);
 
         // This property is only added to the scope for the purpose of detecting when this directive is rendered.
         // We can detect that by using this property in the template associated with this directive and then use
@@ -5609,7 +5612,7 @@ angular.module("template/modal/window.html", []).run(["$templateCache", function
     "<div modal-render=\"{{$isRendered}}\" tabindex=\"-1\" role=\"dialog\" class=\"modal\"\n" +
     "    modal-animation-class=\"fade\"\n" +
     "    modal-in-class=\"in\"\n" +
-    "	ng-style=\"{'z-index': 1050 + index*10, display: 'block'}\" ng-click=\"close($event)\">\n" +
+    "	ng-style=\"{'z-index': 1050 + index*10, display: 'block'}\">\n" +
     "    <div class=\"modal-dialog\" ng-class=\"size ? 'modal-' + size : ''\"><div class=\"modal-content\" modal-transclude></div></div>\n" +
     "</div>\n" +
     "");
