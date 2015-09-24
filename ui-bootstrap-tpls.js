@@ -3480,7 +3480,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.b
 
               // And show the tooltip.
               ttScope.isOpen = true;
-              if (isOpenExp) {
+              if (isOpenExp && angular.isFunction(isOpenExp.assign)) {
                 isOpenExp.assign(ttScope.origScope, ttScope.isOpen);
               }
 
@@ -3497,7 +3497,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.b
             function hide() {
               // First things first: we don't show it anymore.
               ttScope.isOpen = false;
-              if (isOpenExp) {
+              if (isOpenExp && angular.isFunction(isOpenExp.assign)) {
                 isOpenExp.assign(ttScope.origScope, ttScope.isOpen);
               }
 
