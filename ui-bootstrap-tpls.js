@@ -3462,7 +3462,10 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.b
 
             // Show the tooltip popup element.
             function show() {
-              popupTimeout = null;
+              if (popupTimeout) {
+                $timeout.cancel(popupTimeout);
+                popupTimeout = null;
+              }
 
               // If there is a pending remove transition, we must cancel it, lest the
               // tooltip be mysteriously removed.
@@ -3644,7 +3647,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.b
                 element.unbind(trigger, showTooltipBind);
               });
               triggers.hide.forEach(function(trigger) {
-                element.unbind(trigger, hideTooltipBind);
+                trigger.split(' ').forEach(function(hideTrigger) {
+                  element[0].removeEventListener(hideTrigger, hideTooltipBind);
+                });
               });
             };
 
@@ -3661,7 +3666,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.b
                     element[0].addEventListener(trigger, toggleTooltipBind);
                   } else if (trigger) {
                     element[0].addEventListener(trigger, showTooltipBind);
-                    element[0].addEventListener(triggers.hide[idx], hideTooltipBind);
+                    triggers.hide[idx].split(' ').forEach(function(trigger) {
+                      element[0].addEventListener(trigger, hideTooltipBind);
+                    });
                   }
                 });
               }
